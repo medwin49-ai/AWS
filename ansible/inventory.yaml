@@ -1,0 +1,5 @@
+debian_vms:
+  hosts:
+    web_servers: 
+      ansible_host: admin@10.0.2.184
+      
