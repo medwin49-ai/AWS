@@ -34,3 +34,5 @@ ingress_allow_ssh_site = {
   cidr_block_ipv4 = "" 
   tag = "allow_ssh_site"
 }
+
+core_route_table = ["10.0.0.0/18"]

@@ -28,8 +28,25 @@ resource "aws_subnet" "master" {
     Name = "master-subnet"
   }
 }
+
+resource "aws_internet_gateway" "igw" {
+  vpc_id = aws_vpc.core_vpc.id  
+  tags = {
+    name = "Core_Internet_Gatway"
+  }
+}
+
+//Creates route table and routes
+//Check to see if this iteration is working <----------------------------------------------------------------
+resource "aws_route_table" "core_route_table" {
+  vpc_id = aws_vpc.core_vpc.id
+  route = {
+    for_each = toset(var.core_route_table)
+    cidr_block = each.value  //This one
+  }
+
+}
 //Security groups for the vpc
-// Allow TLS
 resource "aws_security_group" "egress_allow_all" {
   name ="allow_all_egress"
   description = "Security group will allow all traffic outbound"

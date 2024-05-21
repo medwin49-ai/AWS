@@ -24,6 +24,12 @@ variable "master_subnet" {
   default = "10.5.5.0/24"
 }
 
+variable "core_route_table" {
+  description = "Table of all the routes of core"
+  
+  type = list(string)
+}
+
 variable "egress_allow_all" {
   description = "Security_group will allow all traffic outbounds"
   type = object({
