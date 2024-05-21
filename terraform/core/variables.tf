@@ -45,3 +45,15 @@ variable "ingress_allow_ssh_core" {
     tag = string
   })
 }
+
+variable "ingress_allow_ssh_site" {
+  description = "Allow ssh from site network"
+  type = object({
+    from_port = number
+    to_port = number
+    protocol = string
+    cidr_block_ipv4 = string
+    tag = string 
+  })
+  
+}
