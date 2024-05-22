@@ -24,9 +24,23 @@ variable "master_subnet" {
   default = "10.5.5.0/24"
 }
 
+variable "site" {
+  description = "Public IP address of site"
+  type = string
+  sensitive = true
+}
+
+
+
+variable "igw" {
+  description = "Internet gateway"
+  type = object({
+    cidr_block_ipv4 = string
+  })
+}
+
 variable "core_route_table" {
   description = "Table of all the routes of core"
-  
   type = list(string)
 }
 

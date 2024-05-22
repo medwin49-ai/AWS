@@ -29,6 +29,31 @@ resource "aws_subnet" "master" {
   }
 }
 
+resource "aws_network_acl" "core_acl" {
+  vpc_id = aws_vpc.core_vpc.id
+  
+  #Allow all traffic
+  egress {
+    from_port = var.allow_all_egress.from_port
+    to_port = var.allow_all_egress.to_port
+    protocol = var.allow_all_egress.protocol
+    cidr_block = var.allow_all_egress.cidr_block_ipv4
+  }
+
+  #Allow only SSH traffic inbounds to my ip address
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "-1"
+    cidr_block = var.site #your ip address can only control ssh
+  }
+
+  tags = {
+    name = "core_acl"
+  }
+}
+
+
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.core_vpc.id  
   tags = {
@@ -38,13 +63,20 @@ resource "aws_internet_gateway" "igw" {
 
 //Creates route table and routes
 //Check to see if this iteration is working <----------------------------------------------------------------
-resource "aws_route_table" "core_route_table" {
+resource "aws_route_table" "core_rt" {
   vpc_id = aws_vpc.core_vpc.id
   route = {
-    for_each = toset(var.core_route_table)
-    cidr_block = each.value  //This one
+    cidr_block = var.igw.cidr_block_ipv4
+    egress_only_gatway_id = aws_internet_gateway.igw.id
   }
+  
+}
 
+// Association rt to the subnet
+resource "aws_route_table_association" "core_rta" {
+  subnet_id = aws_subnet.master.id
+  route_table_id = aws_route_table.core_route_table.id
+  
 }
 //Security groups for the vpc
 resource "aws_security_group" "egress_allow_all" {

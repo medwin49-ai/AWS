@@ -7,6 +7,10 @@ vpc_core = {
 
 }
 
+igw = {
+  cidr_block_ipv4 = "0.0.0.0/0"
+}
+
 //Allow all traffic outbound
 egress_allow_all= {
   to_port = 0
