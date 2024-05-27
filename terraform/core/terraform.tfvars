@@ -2,9 +2,8 @@
 //The values of objects
 
 //Main VPC
-vpc_core = {
-  cidr_block = "10.0.0.0/8"
-
+core_vpc = {
+  cidr_block = "10.0.0.0/16"
 }
 
 igw = {
@@ -16,6 +15,7 @@ egress_allow_all= {
   to_port = 0
   from_port = 0
   protocol = "-1"
+  rule_no = 200
   cidr_block_ipv4 = "0.0.0.0/0"
   tag = "allow_all_outbound"
 }
@@ -24,7 +24,7 @@ egress_allow_all= {
 ingress_allow_ssh_core= {
   to_port = 22
   from_port = 22
-  protocol = "-1"
+  protocol = "tcp"
   cidr_block_ipv4 = "10.5.5.0/24"
   tag = "allow_ssh_core"
 }
@@ -33,10 +33,8 @@ ingress_allow_ssh_core= {
 ingress_allow_ssh_site = {
   to_port = 22
   from_port = 22
-  protocol = "-1"
-  #Your site ip address
-  cidr_block_ipv4 = "" 
+  protocol = "tcp"
+  #terrafrom will as user to input the public ip address
   tag = "allow_ssh_site"
 }
 
-core_route_table = ["10.0.0.0/18"]

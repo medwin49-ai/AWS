@@ -7,13 +7,13 @@ variable "region" {
   default = "us-east-2"
 }
 
-variable "vpc_core" {
+variable "core_vpc" {
   description = "The ID of the VPC where the security group will be created"
   
   type = object({
-    vpc_id = string
+    
     cidr_block = string
-    region = string
+    
   })
 }
 
@@ -21,7 +21,7 @@ variable "vpc_core" {
 variable "master_subnet" {
   description = "Subnet will control all other subnets"
   type = string
-  default = "10.5.5.0/24"
+  default = "10.0.5.0/24"
 }
 
 variable "site" {
@@ -39,10 +39,7 @@ variable "igw" {
   })
 }
 
-variable "core_route_table" {
-  description = "Table of all the routes of core"
-  type = list(string)
-}
+
 
 variable "egress_allow_all" {
   description = "Security_group will allow all traffic outbounds"
@@ -50,6 +47,7 @@ variable "egress_allow_all" {
     from_port = number
     to_port = number
     protocol = string
+    rule_no = number
     cidr_block_ipv4 = string 
     tag = string
   })
@@ -72,8 +70,10 @@ variable "ingress_allow_ssh_site" {
     from_port = number
     to_port = number
     protocol = string
-    cidr_block_ipv4 = string
+    #Will ask user to enter the public ip 
     tag = string 
   })
+
+  
   
 }
