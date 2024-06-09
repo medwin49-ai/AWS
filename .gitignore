@@ -1,0 +1,14 @@
+#Ignore Terraform 
+
+
+#ignore config file
+*.env
+secret.tfvars
+.terraform.tfstate
+terraform.tfstate.backup
+LICENSE,txt
+*.terraform
+.terraform.lock.hcl
+.terraform.tfstate.lock.info
+.terraform
+
